@@ -1,0 +1,32 @@
+{
+  "name": "codimg",
+  "version": "1.0.0",
+  "description": "codimg codimg codimg codimg",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/techsyndicate/codimg.git"
+  },
+  "keywords": [],
+  "author": "Tech Syndicate",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/techsyndicate/codimg/issues"
+  },
+  "homepage": "https://github.com/techsyndicate/codimg#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.10.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
