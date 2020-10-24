@@ -7,9 +7,9 @@ const app = express();
 
 app.use(
     session({
-      secret: 'secret',
-      resave: true,
-      saveUninitialized: true
+        secret: 'secret',
+        resave: true,
+        saveUninitialized: true
     })
 );
 
