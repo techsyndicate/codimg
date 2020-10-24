@@ -5,9 +5,14 @@ function getLicense(repoURL) {
     axios.get(repoURL)
         .then(res => {
             let html = res.data
-            console.log(html)
-            let classes = cheerio('.mt-3', html)
-            console.log(classes)
+            let license = ''
+            let classes = cheerio('.mt-3', html).text().split("\n")
+            classes.forEach((value, index) => {
+                if (value.includes('License')) {
+                    license = value.trim()
+                }
+            })
+            return license
         })
 }
 

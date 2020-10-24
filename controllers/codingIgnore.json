@@ -1,0 +1,10 @@
+[{
+        "language": "React",
+        "files": ["yarn.lock", "package.json", "package-lock.json", "dockerfile", "makefile"],
+        "folders": ["public", "static"]
+    },
+    {
+        "language": "all",
+        "files": ["README.MD", ".gitignore", ".gitattributes"]
+    }
+]

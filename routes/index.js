@@ -5,8 +5,8 @@ const getLicense = require('../controllers/licenseDetector')
 
 router.get('/', (req, res) => {
     res.render('index')
-    // getLicense('https://github.com/jjwilly16/node-pdftk')
-    // getResult('https://github.com/jjwilly16/node-pdftk')
+    getLicense('https://github.com/manojVivek/medium-unlimited')
+        // getResult('https://github.com/jjwilly16/node-pdftk')
 })
 
 router.get('/new', (req, res) => {
