@@ -20,6 +20,7 @@
   "homepage": "https://github.com/techsyndicate/codimg#readme",
   "dependencies": {
     "axios": "^0.21.0",
+    "cheerio": "^1.0.0-rc.3",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
