@@ -6,6 +6,7 @@ const axios = require('axios');
 
 router.get('/', (req, res) => {
     res.render('index')
+    getResult('https://github.com/jjwilly16/node-pdftk')
 })
 
 router.get('/new', (req, res) => {
@@ -29,7 +30,7 @@ router.post('/new', (req, res) => {
         .then(response => {
             let contents = response.data.tree
             contents.map((item) => {
-                if(item.type == 'blob') {
+                if (item.type == 'blob') {
                     files.push(item.path)
                 }
             })
@@ -42,7 +43,7 @@ router.post('/new', (req, res) => {
         .catch(error => {
             console.log(error);
         });
-    
+
 })
 
 router.post('/choose', (req, res) => {
