@@ -38,24 +38,53 @@ nav button:hover {
     font-weight: 600;
 }
 
-form input {
-    height: 50px;
-    width: 300px;
-    background-color: #252729;
-    color: #fefefe;
-    font-size: 1rem;
-    padding-left: 20px;
-    border: none;
-    border-radius: 5px;
-}
+ul, #myUL {
+    list-style-type: none;
+  }
+  
+  #myUL {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .caret {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none;
+  }
+  
+  .caret::before {
+    content: "\25B6";
+    color: white;
+    display: inline-block;
+    margin-right: 6px;
+  }
+  
+  .caret-down::before {
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);  
+  }
+  
+  .inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: left;
+  }
 
-form input:focus {
-    outline: none;
-}
+  .nested {
+    display: block;
+  }
+  
+  .active {
+    display: block;
+  }
 
-#generate-button {
+  #generate-button2 {
     height: 40px;
-    width: 300px;
+    width: 100px;
     background-color: #fafafa;
     border-style: solid;
     border-color: #fafafa;
@@ -63,9 +92,11 @@ form input:focus {
     font-family: 'Inter';
     font-size: 1rem;
     border-radius: 5px;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
 }
 
-#generate-button:hover {
+#generate-button2:hover {
     background-color: #000000;
     color: #fafafa;
     cursor: pointer;

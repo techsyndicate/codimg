@@ -2,6 +2,7 @@ const axios = require('axios');
 const getLicense = require('./licenseDetector')
 
 // https://github.com/jjwilly16/node-pdftk (repo with license)
+// https://github.com/manojVivek/medium-unlimited (repo without license)
 // https://github.com/laxyapahuja/bhyi.tk  (repo without license)
 
 function getResult(inputRepoUrl) {
@@ -26,7 +27,7 @@ function getResult(inputRepoUrl) {
                 console.log(license)
                 contents = contents.filter((item) => item.name !== 'LICENSE.md')
             }
-            console.log(contents)
+            // console.log(contents)
         })
         .catch(error => {
             console.log(error);
