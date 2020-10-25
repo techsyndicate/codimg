@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const getResult = require('../controllers/searchController')
-const getLicense = require('../controllers/licenseDetector')
 const codeSplitter = require('../controllers/rawContentParser')
+const getFiles = require('../controllers/getFiles')
 const axios = require('axios');
 
 router.get('/', (req, res) => {
@@ -23,28 +23,13 @@ router.post('/new', (req, res) => {
         email,
         repoUrl
     }
-    const newRepoUrl = repoUrl.split('.com/')[1]
-    const treeUrl = `https://api.github.com/repos/${newRepoUrl}/git/trees/master?recursive=1`
-    const files = []
-
-    axios.get(treeUrl)
-        .then(response => {
-            let contents = response.data.tree
-            contents.map((item) => {
-                if (item.type == 'blob') {
-                    files.push(item.path)
-                }
-            })
-            res.render('choose', {
-                userDetails,
-                layout: false,
-                files: files,
-            })
+    getFiles(repoUrl).then(files => {
+        res.render('choose', {
+            userDetails,
+            layout: false,
+            files
         })
-        .catch(error => {
-            console.log(error);
-        });
-
+    })
 })
 
 router.post('/results', (req, res) => {
