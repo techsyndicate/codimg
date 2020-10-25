@@ -1,38 +1,43 @@
 <html>
-    <head>
-        <link rel="preload" href="https://assets.vercel.com/raw/upload/v1587415301/fonts/2/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-        <link rel="stylesheet" href="/css/choose.css" />
-    </head>
-    <title>Codimg</title>
-    <nav>
-        <a href="/new"><button>Go Back</button></a>
-    </nav>
-    <div class="form-container">
-        <h1>Choose Files</h1>
-        <ul id="myUL">
-            <form method="POST" action="/choose">
-                <% for (let i = 0; i < files.length; i++) { %> 
-                    <div class="inline">
-                        <input type="checkbox" name="files" value="<%- files[i] %>">&nbsp;<li><%- files[i] %></li>
-                    </div><br>
+
+<head>
+    <link rel="preload" href="https://assets.vercel.com/raw/upload/v1587415301/fonts/2/inter-var-latin.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/choose.css" />
+</head>
+<title>Codimg</title>
+<nav>
+    <a href="/new"><button>Go Back</button></a>
+</nav>
+<div class="form-container">
+    <h1>Choose Files</h1>
+    <ul id="myUL">
+        <form method="POST" action="/results">
+            <% for (let i = 0; i < files.length; i++) { %>
+                <div class="inline">
+                    <input type="checkbox" name="files" value="<%- files[i] %>">&nbsp;
+                    <li>
+                        <%- files[i] %>
+                    </li>
+                </div><br>
                 <% } %>
-                <input type="hidden" name="name" value="<%- userDetails.name %>">
-                <input type="hidden" name="email" value="<%- userDetails.email %>">
-                <input type="hidden" name="repoUrl" value="<%- userDetails.repoUrl %>">
-                <button type="submit" id="generate-button2">Generate</button>
-            </form>
-        </ul>
-    </div>
-              
-    <script>
-        var toggler = document.getElementsByClassName("caret");
-        var i;
-        
-        for (i = 0; i < toggler.length; i++) {
-          toggler[i].addEventListener("click", function() {
+                    <input type="hidden" name="name" value="<%- userDetails.name %>">
+                    <input type="hidden" name="email" value="<%- userDetails.email %>">
+                    <input type="hidden" name="repoUrl" value="<%- userDetails.repoUrl %>">
+                    <button type="submit" id="generate-button2">Generate</button>
+        </form>
+    </ul>
+</div>
+
+<script>
+    var toggler = document.getElementsByClassName("caret");
+    var i;
+
+    for (i = 0; i < toggler.length; i++) {
+        toggler[i].addEventListener("click", function() {
             this.parentElement.querySelector(".nested").classList.toggle("active");
             this.classList.toggle("caret-down");
-          });
-        }
-    </script>
+        });
+    }
+</script>
+
 </html>

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const getResult = require('../controllers/searchController')
 const getLicense = require('../controllers/licenseDetector')
+const codeSplitter = require('../controllers/rawContentParser')
 const axios = require('axios');
 
 router.get('/', (req, res) => {
@@ -46,11 +47,12 @@ router.post('/new', (req, res) => {
 
 })
 
-router.post('/choose', (req, res) => {
+router.post('/results', (req, res) => {
     const { files, name, email, repoUrl } = req.body
-    console.log(files)
-    console.log(name, email, repoUrl)
-    getResult('https://github.com/jjwilly16/node-pdftk')
+    const username_repo = repoUrl.split('.com/')[1]
+    codeSplitter(username_repo, files).then(duoObject => {
+        console.log(duoObject)
+    })
     res.redirect('/new')
 })
 
