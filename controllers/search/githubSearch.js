@@ -6,7 +6,7 @@ require('dotenv').config()
 const config = {
     headers: {
         'Content-Type': 'application/json',
-        'Authorisation': `token ${OAUTH_GITHUB}`
+        'Authorisation': `token ${process.env.OAUTH_GITHUB}`
     }
 }
 
@@ -72,4 +72,4 @@ function searchResultsArrayFunction(searchableData) {
 }
 */
 
-module.exports = githubSearch;
+//module.exports = githubSearch;

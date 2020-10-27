@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const getResult = require('../controllers/searchController')
-const codeSplitter = require('../controllers/rawContentParser')
+const codeSearchQuery = require('../controllers/rawContentParser')
 const getFiles = require('../controllers/getFiles')
 const githubSearch = require('../controllers/search/githubSearch')
 const axios = require('axios');
@@ -33,12 +33,12 @@ router.post('/new', (req, res) => {
     })
 })
 
-router.post('/results', (req, res) => {
+router.post('/results', async(req, res) => {
     const { files, name, email, repoUrl } = req.body
     const username_repo = repoUrl.split('.com/')[1]
-    codeSplitter(username_repo, files).then(duoObject => {
-        githubSearch(duoObject)
-    })
+    console.log(username_repo)
+    let searchObject = await codeSearchQuery(username_repo, files)
+    console.log(searchObject)
     res.redirect('/new')
 })
 
