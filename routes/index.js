@@ -3,6 +3,7 @@ const router = express.Router();
 const getResult = require('../controllers/searchController')
 const codeSplitter = require('../controllers/rawContentParser')
 const getFiles = require('../controllers/getFiles')
+const githubSearch = require('../controllers/search/githubSearch')
 const axios = require('axios');
 
 router.get('/', (req, res) => {
@@ -36,7 +37,7 @@ router.post('/results', (req, res) => {
     const { files, name, email, repoUrl } = req.body
     const username_repo = repoUrl.split('.com/')[1]
     codeSplitter(username_repo, files).then(duoObject => {
-        console.log(duoObject)
+        githubSearch(duoObject)
     })
     res.redirect('/new')
 })
