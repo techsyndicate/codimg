@@ -1,16 +1,50 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
+const urlencode = require('urlencode')
 
 require('dotenv').config()
 
 const config = {
     headers: {
         'Content-Type': 'application/json',
-        'Authorisation': `token ${process.env.OAUTH_GITHUB}`
+        'Authorization': `token ${process.env.OAUTH_GITHUB}`
     }
 }
 
 SEARCH_GITHUB_API_URL = 'https://api.github.com/search/code?q='
+
+function githubSearch(searchObject) {
+    let promise = new Promise(async(resolve, reject) => {
+        searchResults = {}
+        for (const [file_url, searchQuery] of Object.entries(searchObject)) {
+            url = await searchURL(SEARCH_GITHUB_API_URL + searchQuery)
+            try {
+                let res = await axios.get(url, config)
+                searchResults[file_url] = res.data
+            } catch (err) {
+
+            }
+        }
+        resolve(searchResults)
+    })
+    return promise
+}
+
+async function searchURL(url) {
+    try {
+        let res = await axios.get(SEARCH_GITHUB_API_URL + searchQuery, config)
+        if (res.response.status == 422) {
+            url = url.trim().substring(0, url.length - 15)
+            return url
+        } else {
+            return url
+        }
+    } catch (err) {
+        url = url.trim().substring(0, url.length - 15)
+        console.log(url)
+        return url
+    }
+}
 
 /* 
 initalSearchObjectExample = {
@@ -72,4 +106,4 @@ function searchResultsArrayFunction(searchableData) {
 }
 */
 
-//module.exports = githubSearch;
+module.exports = githubSearch

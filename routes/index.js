@@ -36,9 +36,9 @@ router.post('/new', (req, res) => {
 router.post('/results', async(req, res) => {
     const { files, name, email, repoUrl } = req.body
     const username_repo = repoUrl.split('.com/')[1]
-    console.log(username_repo)
     let searchObject = await codeSearchQuery(username_repo, files)
-    console.log(searchObject)
+    let searchResults = await githubSearch(searchObject)
+    console.log(searchResults)
     res.redirect('/new')
 })
 

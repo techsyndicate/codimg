@@ -1,5 +1,6 @@
 const axios = require('axios')
 const stripComments = require('strip-comments')
+const urlencode = require('urlencode')
 
 function rawGithubLinkParser(repoUrl, files) {
     console.log(files)
@@ -73,7 +74,6 @@ function codeSearchQuery(repoUrl, files) {
                     let code = res.data.toString()
                     code = stripComments(code)
                     let searchQuery = codeMinifier(code)
-                    console.log(searchQuery)
                     object[link] = searchQuery
                     if (files.length == Object.keys(object).length) {
                         resolve(object)
@@ -84,23 +84,24 @@ function codeSearchQuery(repoUrl, files) {
     return promise
 }
 
-async function codeMinifier(code) {
+function codeMinifier(code) {
     searchQuery = ''
     let code_array = code.split('\n')
-    let ind = 0
-    ind = await code_array.every((value, index) => {
-        if (value.includes('(')) {
-            ind = index + 1
-            return ind
-        }
-    })
+    let ind = Math.floor(code_array.length / 2)
     searchQuery = code_array[ind].trim()
-    for (let i = 1; i < 10; i++) {
+    for (let i = 1; i < 15; i++) {
         if (searchQuery.length < 128) {
             ind = ind + 1
-            searchQuery = `${searchQuery} ${code_array[ind].trim()}`
+            try {
+                searchQuery = `${searchQuery} ${code_array[ind].trim()}`
+            } catch (err) {}
+            if (ind == code_array.length) {
+                searchQuery = searchQuery.slice(0, 127)
+                break
+            }
         } else {
-            searchQuery = searchQuery.slice(0, 129)
+            searchQuery = searchQuery.slice(0, 127)
+            break
         }
     }
     return searchQuery
