@@ -107,4 +107,4 @@ function codeMinifier(code) {
     return searchQuery
 }
 
-module.exports = codeSearchQuery;
+module.exports = { codeSearchQuery, rawGithubLinkParserSingular };
