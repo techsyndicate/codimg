@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const getResult = require('../controllers/searchController')
+const getLicense = require('../controllers/licenseDetector')
 const { codeSearchQuery, rawGithubLinkParserSingular } = require('../controllers/rawContentParser')
 const getFiles = require('../controllers/getFiles')
 const githubSearch = require('../controllers/search/githubSearch')
@@ -9,7 +9,6 @@ const axios = require('axios');
 
 router.get('/', (req, res) => {
     res.render('index')
-    getResult('https://github.com/jjwilly16/node-pdftk')
 })
 
 router.get('/new', (req, res) => {
@@ -39,18 +38,42 @@ router.post('/results', async(req, res) => {
     const username_repo = repoUrl.split('.com/')[1]
     let searchObject = await codeSearchQuery(username_repo, files)
     let searchResults = await githubSearch(searchObject)
-    resultsParser(searchResults).then(result => {
-        for (const [key, value] of Object.entries(result)) {
-            console.log(key)
-            console.log(value)
+    let results = await resultsParser(searchResults)
+    for(const [key, value] of Object.entries(results)) {
+        try {
+            const new_key = key.split('master/')[1]
+            const file_name = new_key.split('/')[1]
+            const new_file_name = file_name.split('.')[0]
+            results[new_file_name] = results[key]
+            delete results[key]
+        } catch (error) {
+            const new_key = key.split('main/')[1]
+            const file_name = new_key.split('/')[1]
+            const new_file_name = file_name.split('.')[0]
+            results[new_file_name] = results[key]
+            delete results[key]
+            console.log(error)
         }
-    })
-    res.redirect('/new')
-})
-
-router.get('/results', (req, res) => {
+    }
+    let repoLicense = 'nonexistant'
+    // console.log(results)
+    getLicense(repoUrl).then((license => {
+        repoLicense = license
+    }))
+    const keysofData = Object.keys(results)
+    const newKeys = []
+    for (let i = 0; i < keysofData.length; i++) {
+        const new_key = keysofData[i].split('.')[0]
+        newKeys.push(new_key)
+    }
     res.render('results', {
-        layout: false
+        name: name,
+        email: email,
+        repoUrl: repoUrl,
+        layout: false,
+        repoLicense: repoLicense,
+        results: results,
+        keys: newKeys,
     })
 })
 

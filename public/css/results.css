@@ -1,5 +1,5 @@
 body {
-    background-color: white;
+    background-color: #ffffff;
     font-family: 'Inter';
     padding-left: 20%;
     padding-top: 5%;
@@ -26,3 +26,94 @@ h1 {
     font-size: 1.3rem;  
     margin-bottom: 0rem;
 }
+
+.outer-div {
+    width: 75%;
+    height: 70vh;
+    border-style: solid;
+    border-width: 1px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: left;
+}
+
+.left-div {
+    height: 70vh;
+    width: 26%;
+    border-right: 1px solid;
+}
+
+.right-div {
+    height: 70vh;
+    width: 70%;
+    padding-left: 5px;
+}
+
+.left-div h2 {
+    font-weight: 500;
+    font-size: 1rem;
+    padding-left: 20px;
+}
+
+#divider {
+    border-width: 2px;
+}
+
+.left-card {
+    height: 50px;
+    border-top: 0.5px solid;
+    border-bottom: 1px solid;
+}
+
+.left-card:hover {
+    background-color: #808080;
+    cursor: pointer;
+}
+
+.card {
+    border: 1px solid #111;
+    border-radius: 5px;
+    padding: 10px 12px;
+    width: 600px;
+    height: 150px;
+    display: block;
+    margin-left: 10px;
+    padding-right: 20px;
+}
+
+.left-align {
+    display: inline-block;
+    width: 50%;
+    float: left;
+}
+
+.right-align {
+    display: inline-block;
+    width: 50%;
+    float: right;
+    text-align: right;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 105%;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }

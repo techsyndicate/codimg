@@ -38,13 +38,13 @@ async function resultsArrayLoop(search_Results, file_url) {
             } catch (error) {
                 similarity = 0
             }
-            result = {
-                name_repo: value.repository.full_name,
-                filePath: value.path,
-                similarity: similarity,
-                similarCharCountSource: charCount(sourceFileRes.data, similarity)[0],
-                totalCharCountSource: charCount(sourceFileRes.data, similarity)[1]
-            }
+            result = [
+                value.repository.full_name,
+                value.path,
+                similarity,
+                charCount(sourceFileRes.data, similarity)[0],
+                charCount(sourceFileRes.data, similarity)[1]
+            ]
             resultsArray.push(result)
             if (i == items.length) {
                 resolve(resultsArray)

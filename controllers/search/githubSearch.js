@@ -22,7 +22,7 @@ function githubSearch(searchObject) {
                 let res = await axios.get(url, config)
                 searchResults[file_url] = res.data
             } catch (err) {
-
+                console.log(err)
             }
         }
         resolve(searchResults)
