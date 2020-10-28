@@ -10,6 +10,9 @@
 </nav>
 <div class="form-container">
     <h1>Choose Files</h1>
+    <% if(typeof(error) !== "undefined") { %> 
+        <h3 style="font-weight: 400;font-size: 1rem;"><%- error %></h3>
+    <% } %>
     <ul id="myUL">
         <form method="POST" action="/results">
             <% for (let i = 0; i < files.length; i++) { %>

@@ -9,10 +9,13 @@
     </nav>
     <div class="form-container">
         <h1>New Report</h1>
+        <% if(typeof(error) !== "undefined") { %> 
+            <h3 style="font-weight: 400;font-size: 1rem;"><%- error %></h3>
+        <% } %>
         <form method="POST" action="/new">
-            <input type="text" placeholder="Name" name="name"><br><br>
-            <input type="email" placeholder="Email" name="email"><br><br>
-            <input type="text" placeholder="Repository Link" name="repoUrl"><br><br>
+            <input required type="text" placeholder="Name" name="name"><br><br>
+            <input required type="email" placeholder="Email" name="email"><br><br>
+            <input required type="text" placeholder="Repository Link" name="repoUrl"><br><br>
             <button type="submit" id="generate-button">Choose Files</button>
         </form>
     </div>

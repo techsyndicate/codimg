@@ -19,25 +19,49 @@ router.get('/new', (req, res) => {
 
 router.post('/new', (req, res) => {
     const { name, email, repoUrl } = req.body
-    userDetails = {
-        name,
-        email,
-        repoUrl
-    }
-    getFiles(repoUrl).then(files => {
-        res.render('choose', {
-            userDetails,
+    const repoName = repoUrl.split('.com/')[1]
+    axios.get(`https://api.github.com/repos/${repoName}`)
+    .then(response => {
+        userDetails = {
+            name,
+            email,
+            repoUrl
+        }
+        getFiles(repoUrl).then(files => {
+            res.render('choose', {
+                userDetails,
+                layout: false,
+                files
+            })
+        })
+    })
+    .catch(err => {
+        res.render('new', {
             layout: false,
-            files
+            error: 'Invalid Repository Link'
         })
     })
 })
 
 router.post('/results', async(req, res) => {
     const { files, name, email, repoUrl } = req.body
+    const userDetails = {
+        name,
+        email,
+        repoUrl
+    }
+    if(typeof(files) === "undefined") {
+        getFiles(repoUrl).then(files => {
+            res.render('choose', {
+                userDetails,
+                layout: false,
+                files,
+                error: 'Choose atleast 1 file'
+            })
+        })
+    }
     const username_repo = repoUrl.split('.com/')[1]
     const filesArray = []
-    console.log(files)
     if(typeof(files) == "string") {
         filesArray.push(files)
     } else {
@@ -45,7 +69,6 @@ router.post('/results', async(req, res) => {
             filesArray.push(files[i])
         }
     }
-    console.log(filesArray)
     let searchObject = await codeSearchQuery(username_repo, filesArray)
     let searchResults = await githubSearch(searchObject)
     let results = await resultsParser(searchResults)
