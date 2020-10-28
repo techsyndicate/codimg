@@ -12,6 +12,13 @@
         <p><%- email %></p>
         <p><%- repoUrl %></p>
     </div><br>
+    <% if(repoLicense !== 'nonexistant') { %> 
+    <h1>License Details</h1>
+    <div class="user-details">
+        <p><%- repoLicense %></p>
+        <p><%- licenseLink %></p>
+    </div><br>
+    <% } %>
     <h1>Files</h1>
     <div class="outer-div">
         <div id="org-parent" class="left-div">
@@ -25,11 +32,30 @@
           <% for (let [key, value] of Object.entries(results)) { %> 
             <div hidden id="<%- key %>Div" class="right-div" style="overflow: auto;height: 100%;width: 110%;">
               <h3 style="margin-left: 10px;">Repos with similar code</h3>
-              <%- value[0][0] %><br>
-              <%- value[1][0] %><br>
-              <%- value[2][0] %><br>
-              <%- value[3][0] %><br>
-              <%- value[4][0] %><br>
+              <% for (let j = 0; j < value.length; j++) { %>
+                <div class="card">
+                  <div class="left-align">
+                    <p><i class="fa fa-user"></i>
+                      <%- value[j][0] %><br/>
+                      <%- value[j][1] %>
+                    <br/><%- value[j][2] %>
+                    </p>
+                    <p><strong>
+                    <span class="tooltip"><%- value[j][3] %>% match
+                      <span class="tooltiptext"><%- value[j][3] %>% of their code matches yours.</span>
+                    </span></strong><br/>
+                    <%- value[j][4] %>/<%- value[j][5] %> common characters
+                    </p>
+                  </div>
+                  <div class="right-align">
+                    <p><a target="blank" style="text-decoration: none;color: black;" href="<%- value[j][6] %>">
+                      <i class="fa fa-link" style="float: right"></i>
+                      </a>
+                    </p>
+                  </div>
+                </div>
+                <br>
+              <% } %>
             </div>
             <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
             <script>
@@ -52,29 +78,5 @@
     <br><br>
 </html>
 
-<!-- 
-  <div class="card">
-  <div class="left-align">
-    <p><i class="fa fa-user"></i>
-      oorjitchowdhary<br/>
-      cw-finals
-    <br/>admin.js
-    </p>
-    <p><strong>
-    <span class="tooltip">42%
-      <span class="tooltiptext">42% of their code matches yours.</span>
-    </span>/ 
-    <span class="tooltip">30%
-      <span class="tooltiptext">30% of your code matches theirs.</span>
-    </span>  match</strong><br/>
-      840/2000 common characters
-    </p>
-  </div>
-  <div class="right-align">
-    <p>
-      <i class="fa fa-star" style="float: right"></i>
-      42&nbsp;
-    </p>
-  </div>
-</div>
-<br> -->
+
+  

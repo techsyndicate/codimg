@@ -1,18 +1,18 @@
 const axios = require('axios')
-const cheerio = require('cheerio')
 
-function getLicense(repoURL) {
+function getLicense(repoName) {
+    let licenseUrl = `https://api.github.com/repos/${repoName}/license`
     let promise = new Promise((resolve, reject) => {
-        axios.get(repoURL)
+        axios.get(licenseUrl)
             .then(res => {
-                let html = res.data
-                let classes = cheerio('.mt-3', html).text().split("\n")
-                classes.forEach((value, index) => {
-                    if (value.includes('License')) {
-                        license = value.trim()
-                        resolve(license);
-                    }
+                    license = res.data.license.name
+                    resolve(license)
                 })
+            .catch(err => {
+                if(err.response.status == 404) {
+                    license = 'nonexistant'
+                    resolve(license)
+                }
             })
     })
     return promise

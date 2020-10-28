@@ -38,12 +38,23 @@ async function resultsArrayLoop(search_Results, file_url) {
             } catch (error) {
                 similarity = 0
             }
+            let repofullname = value.repository.full_name
+            let splitted = repofullname.split('/')
+            let userName = splitted[0]
+            let repoName = splitted[1]
+            let similaritypercent = similarity * 100
+            similaritypercent =  similaritypercent.toFixed(2)
+            let commonChars = charCount(sourceFileRes.data, similarity)[0]
+            commonChars = Math.trunc(commonChars)
+            let repourl = `https://github.com/${repofullname}`
             result = [
-                value.repository.full_name,
+                userName,
+                repoName,
                 value.path,
-                similarity,
-                charCount(sourceFileRes.data, similarity)[0],
-                charCount(sourceFileRes.data, similarity)[1]
+                similaritypercent,
+                commonChars,
+                charCount(sourceFileRes.data, similarity)[1],
+                repourl
             ]
             resultsArray.push(result)
             if (i == items.length) {
