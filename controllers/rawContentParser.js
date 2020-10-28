@@ -4,29 +4,41 @@ const urlencode = require('urlencode')
 
 function rawGithubLinkParser(repoUrl, files) {
     console.log(files)
-    var promise = new Promise((resolve, reject) => {
+    var promise = new Promise(async(resolve, reject) => {
         let links = []
+        let i = 1
         files.forEach(async(file, index) => {
             let link = await rawGithubLinkParserSingular(repoUrl, file)
             links.push(link)
+            if (i == files.length) {
+                resolve(links)
+            }
+            i = i + 1
         })
-        resolve(links)
     })
     return promise
 }
 
 function rawGithubLinkParserSingular(repo, file) {
-    branch = 'master'
-    link = `https://raw.githubusercontent.com/${repo}/${branch}/${file}`
-    var promise = new Promise((resolve, reject) => {
-        try {
-            axios.get(link).then(res)
-            resolve(link)
-        } catch (err) {
-            branch = 'master'
-            link = `https://raw.githubusercontent.com/${repo}/${branch}/${file}`
-            resolve(link)
-        }
+    var promise = new Promise(async(resolve, reject) => {
+        link = `https://api.github.com/repos/${repo}/contents/${file}`
+        let res = await axios.get(link)
+        let data = res.data
+        resolve(data.download_url)
+            // branch = 'main'
+            // link = `https://raw.githubusercontent.com/${repo}/${branch}/${file}`
+            // try {
+            //     let res = await axios.get(link)
+            //     if (res.status == 200) {
+            //         resolve(link)
+            //     }
+            // } catch (err) {
+            //     if (err.response.status == 404) {
+            //         branch = 'master'
+            //         link = `https://raw.githubusercontent.com/${repo}/${branch}/${file}`
+            //         resolve(link)
+            //     }
+            // }
     })
     return promise
 }
@@ -68,6 +80,7 @@ function codeSearchQuery(repoUrl, files) {
     var promise = new Promise(async(resolve, reject) => {
         object = {}
         let rawlinks = await rawGithubLinkParser(repoUrl, files)
+        console.log(rawlinks)
         rawlinks.forEach((link, index) => {
             axios.get(link)
                 .then(res => {
