@@ -31,6 +31,7 @@ function rawGithubLinkParser(repoUrl, files) {
 function rawGithubLinkParserSingular(repo, file) {
     var promise = new Promise(async(resolve, reject) => {
         try {
+            file = urlencode(file)
             link = `https://api.github.com/repos/${repo}/contents/${file}`
             let res = await axios.get(link, config)
             let data = res.data

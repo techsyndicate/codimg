@@ -9,9 +9,11 @@ const config = {
     }
 }
 
-function getFiles(repoUrl) {
+async function getFiles(repoUrl) {
     const newRepoUrl = repoUrl.split('.com/')[1]
-    const treeUrl = `https://api.github.com/repos/${newRepoUrl}/git/trees/master?recursive=1`
+    let res = await axios.get(`https://api.github.com/repos/${newRepoUrl}`)
+    let branch = res.data.default_branch
+    const treeUrl = `https://api.github.com/repos/${newRepoUrl}/git/trees/${branch}?recursive=1`
     const files = []
     var promise = new Promise((resolve, reject) => {
         axios.get(treeUrl, config)
