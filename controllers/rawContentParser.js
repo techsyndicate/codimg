@@ -2,6 +2,15 @@ const axios = require('axios')
 const stripComments = require('strip-comments')
 const urlencode = require('urlencode')
 
+require('dotenv').config()
+
+const config = {
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `token ${process.env.OAUTH_GITHUB}`
+    }
+}
+
 function rawGithubLinkParser(repoUrl, files) {
     console.log(files)
     var promise = new Promise(async(resolve, reject) => {
@@ -21,24 +30,28 @@ function rawGithubLinkParser(repoUrl, files) {
 
 function rawGithubLinkParserSingular(repo, file) {
     var promise = new Promise(async(resolve, reject) => {
-        link = `https://api.github.com/repos/${repo}/contents/${file}`
-        let res = await axios.get(link)
-        let data = res.data
-        resolve(data.download_url)
-            // branch = 'main'
-            // link = `https://raw.githubusercontent.com/${repo}/${branch}/${file}`
-            // try {
-            //     let res = await axios.get(link)
-            //     if (res.status == 200) {
-            //         resolve(link)
-            //     }
-            // } catch (err) {
-            //     if (err.response.status == 404) {
-            //         branch = 'master'
-            //         link = `https://raw.githubusercontent.com/${repo}/${branch}/${file}`
-            //         resolve(link)
-            //     }
-            // }
+        try {
+            link = `https://api.github.com/repos/${repo}/contents/${file}`
+            let res = await axios.get(link, config)
+            let data = res.data
+            resolve(data.download_url)
+        } catch (err) {
+            console.log(err)
+        }
+        // branch = 'main'
+        // link = `https://raw.githubusercontent.com/${repo}/${branch}/${file}`
+        // try {
+        //     let res = await axios.get(link)
+        //     if (res.status == 200) {
+        //         resolve(link)
+        //     }
+        // } catch (err) {
+        //     if (err.response.status == 404) {
+        //         branch = 'master'
+        //         link = `https://raw.githubusercontent.com/${repo}/${branch}/${file}`
+        //         resolve(link)
+        //     }
+        // }
     })
     return promise
 }
