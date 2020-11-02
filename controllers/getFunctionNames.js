@@ -21,31 +21,77 @@ const cLink = 'https://raw.githubusercontent.com/Jai-17/FP-Player-Movement/main/
 
 
 function getAllFunctionNames(x, keyword, character) {
-  axios.get(x)
-  .then(response => {
-    let code = response.data
-    let startIndex = code.indexOf(`${keyword} `)
-    while(startIndex > 0) {
-      let length = code.length
-      const endIndex = startIndex + 150
-      let functionName = ''
-      for (let i = startIndex; i <= endIndex; i++) {
-        functionName += code[i]
-      }
-      functionName = functionName.split(character)[0]
-      code = code.slice(endIndex, length)
-      startIndex = code.indexOf(`${keyword} `)
-      console.log(functionName)
-    }
-  })
-  .catch((err) => {
-      console.log(err)
-  })
+    let promise = new Promise(async(resolve, reject) => {
+        functions = []
+        let response = await axios.get(x)
+        let code = response.data
+        let startIndex = code.indexOf(`${keyword} `)
+        while (startIndex > 0) {
+            let length = code.length
+            const endIndex = startIndex + 150
+            let functionName = ''
+            for (let i = startIndex; i <= endIndex; i++) {
+                functionName += code[i]
+            }
+            functionName = functionName.split(character)[0]
+            code = code.slice(endIndex, length)
+            startIndex = code.indexOf(`${keyword} `)
+            functions.push(functionName)
+        }
+        resolve(functions)
+    })
+    return promise
 }
 
+function functionQueryConverter(functionSearchArray) {
+    try {
+        searchQuery = functionSearchArray[0]
+        ind = 0
+        for (let i = 1; i < 15; i++) {
+            if (searchQuery.length < 128) {
+                ind = ind + 1
+                try {
+                    searchQuery = `${searchQuery} ${functionSearchArray[ind].trim()}`
+                } catch (err) {}
+                if (ind == functionSearchArray.length) {
+                    searchQuery = searchQuery.slice(0, 127)
+                    break
+                }
+            } else {
+                searchQuery = searchQuery.slice(0, 127)
+                break
+            }
+        }
+        return searchQuery
+    } catch (err) {
+        console.log(err)
+    }
+}
 
-getAllFunctionNames(jsLink, 'function', '{')
+function functionSearchObjectParser(searchObject) {
+    let promise = new Promise(async(resolve, reject) => {
+        functionSearchObject = {}
+        for (const [file_url, codeQuery] of Object.entries(searchObject)) {
+            let functionSearchArray = []
+            if (file_url.endsWith('.py')) {
+                functionSearchArray = await getAllFunctionNames(file_url, 'def', ':')
+            } else if (file_url.endsWith('.js')) {
+                functionSearchArray = await getAllFunctionNames(file_url, 'function', '{')
+            } else if (file_url.endsWith('.cs')) {
+                functionSearchArray = await getAllFunctionNames(file_url, 'void', '{')
+            }
+            let searchQuery = functionQueryConverter(functionSearchArray)
+            functionSearchObject[file_url] = searchQuery
+        }
+        resolve(functionSearchObject)
+    })
+    return promise
+}
 
-getAllFunctionNames(pyLink, 'def', ':')
+//getAllFunctionNames(jsLink, 'function', '{')
 
-getAllFunctionNames(cLink, 'void', '{')
+//getAllFunctionNames(pyLink, 'def', ':')
+
+//getAllFunctionNames(cLink, 'void', '{')
+
+module.exports = functionSearchObjectParser;
