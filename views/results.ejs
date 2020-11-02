@@ -6,19 +6,22 @@
         <link rel="stylesheet" href="/css/results.css" />
     </head>
     <title>Codimg</title>
+    <div class="inline">
     <h1>User Details</h1>
-    <div class="user-details">
-        <p><%- name %></p>
-        <p><%- email %></p>
-        <p><%- repoUrl %></p>
-    </div><br>
-    <% if(repoLicense !== 'nonexistant') { %> 
-    <h1>License Details</h1>
-    <div class="user-details">
-        <p><%- repoLicense %></p>
-        <p><%- licenseLink %></p>
-    </div><br>
-    <% } %>
+      <div class="user-details">
+          <b><p><%- name %></p></b>
+          <p><%- email %></p>
+          <a href="<%- repoUrl %>" target="blank" style="text-decoration: underline;color: black"><p><%- repoUrl %></p></a>
+      </div><br>
+      <% if(repoLicense !== 'nonexistant') { %> 
+      <h1 style="margin-left: 200px;">License Details</h1>
+      <div class="license-details">
+          <b><p><%- repoLicense %></p></b>
+          <a href="<%- licenseLink %>" target="blank" style="text-decoration: underline;color: black"><p><%- licenseLink %></p></a>
+      </div><br>
+      <% } %>
+  </div>
+  <br>
     <h1>Files</h1>
     <div class="outer-div">
         <div id="org-parent" class="left-div">
@@ -35,10 +38,10 @@
               <% for (let j = 0; j < value.length; j++) { %>
                 <div class="card">
                   <div class="left-align">
-                    <p><i class="fa fa-user"></i>
+                    <p><img src="https://github.com/<%- value[j][0] %>.png" height="16" width="16" style="border-radius: 50%;border-style:solid;border-width: 0.5px;">
                       <%- value[j][0] %><br/>
                       <%- value[j][1] %>
-                    <br/><%- value[j][2] %>
+                    <br/><b><a href="<%- value[j][7] %>" target="blank" style="text-decoration: none;color: black"><span style="width: 5%;"><%- value[j][2] %></span></a></b>
                     </p>
                     <p><strong>
                     <span class="tooltip"><%- value[j][3] %>% match

@@ -6,14 +6,15 @@ body {
 }
 
 .user-details {
-    width: 450px;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 5px;
-    padding-left: 30px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    width: 300px;
+    margin-left: -190px;
+    padding-top: 70px;
+}
+
+.license-details {
+    padding-top: 70px;
+    width: 300px;
+    margin-left: -235px;
 }
 
 h1 {
@@ -75,7 +76,7 @@ h1 {
     border-radius: 5px;
     padding: 10px 12px;
     width: 600px;
-    height: 150px;
+    height: 160px;
     display: block;
     margin-left: 10px;
     padding-right: 20px;
@@ -116,4 +117,10 @@ h1 {
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+
+.inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: left;
 }

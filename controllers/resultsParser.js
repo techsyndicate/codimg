@@ -62,14 +62,18 @@ async function resultsArrayLoop(search_Results, file_url) {
                 let commonChars = charCount(sourceFileRes.data, similarity)[0]
                 commonChars = Math.trunc(commonChars)
                 let repourl = `https://github.com/${repofullname}`
+                const shortsplit = value.path.split('/')
+                const shortPath = shortsplit[shortsplit.length-1]
+                const filePathUrl = `https://github.com/${repofullname}/tree/master/${value.path}`
                 result = [
                     userName,
                     repoName,
-                    value.path,
+                    shortPath,
                     similaritypercent,
                     commonChars,
                     charCount(sourceFileRes.data, similarity)[1],
-                    repourl
+                    repourl,
+                    filePathUrl
                 ]
                 resultsArray.push(result)
                 if (i == items.length) {
