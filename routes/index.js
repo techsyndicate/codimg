@@ -84,7 +84,13 @@ router.post('/results', async(req, res) => {
         results[new_file_name] = results[key]
         delete results[key]
     }
-    // console.log(results)
+    for (const [key, value] of Object.entries(results)) {
+        value.sort(function (a,b) {
+            a = parseFloat(a[3])
+            b = parseFloat(b[3]) 
+            return b - a
+        })
+    }
     let repoName = repoUrl.split('.com/')[1]
     let repoLicense = await getLicense(repoName)
     const keysofData = Object.keys(results)
